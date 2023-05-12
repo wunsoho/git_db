@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-     안녕 내 이름은 정원이야
+     안녕 내 이름은 혜미야
   </div>
 </template>
 
