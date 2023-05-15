@@ -12,24 +12,27 @@
             <div class="block1">
                 <img src= "@/assets/NH.png">
                 <div>
-                    <div id="account" class="accountname">농협 352-0932-2852-43</div> <br>
-                    <div id="a-money" class="title money">20,000</div>
+                    <div id="accountname" v-text= "accountname1" ></div>
+                    <div id="account" v-text= "account1" ></div> <br> 
+                    <div id="a-money" v-text= "money1" > </div> 
                     <div id="원" class="title block1-title">원</div>
                 </div>
             </div>
             <div class="block2">
                 <img src= "@/assets/KaKao.png">
                 <div>
-                    <div id="account" class="accountname">카카오뱅크 3333-08-789-0456</div> <br>
-                    <div id="a-money" class="title money">20,000</div>
+                    <div id="accountname" v-text= "accountname2"></div> 
+                    <div id="account" v-text= "account2"></div> <br>
+                    <div id="a-money" v-text= "money2"></div>
                     <div id="원" class="title block1-title">원</div>
                 </div>
             </div>
             <div class="block3">
                 <img src= "@/assets/KB.png">
                 <div>
-                    <div id="account" class="accountname">국민은행 950002-00-12345</div> <br>
-                    <div id="a-money" class="title money">20,000</div>
+                    <div id="accountname" v-text= "accountname3"></div> 
+                    <div id="account" v-text= "account3"></div> <br>
+                    <div id="a-money" v-text= "money3"></div>
                     <div id="원" class="title block1-title">원</div>
                 </div>
             </div>
@@ -45,9 +48,38 @@
         components:{
         },
         setup(){
-            return{}
+            let accountname1 = '농협';
+            let account1 = '352-0932-2852-43';
+            let money1 = 20000;
+
+            let accountname2 = '카카오뱅크';
+            let account2 = '3333-089-7890-32';
+            let money2 = 20000;
+
+            let accountname3 = '국민은행';
+            let account3 = '950002-00-78904';
+            let money3 = 20000;
+
+
+
+
+        {
+            return{
+                accountname1,
+                account1,
+                money1,
+                accountname2,
+                account2, 
+                money2,
+                accountname3,
+                account3, 
+                money3,
+            }
+        }
         }
     }
+
+
 </script>
 
 <style>
@@ -83,16 +115,31 @@
     background-color: #E7E7E7;
     margin-top:15vh;
 }
-.block1-title{
-    font-size:3vh;
-    height:13vh;
-}
+
 img {
     margin-top:1vh;
     margin-left:5vw;
     float:left;
     width:70px; 
     height:70px;
+}
+#accountname {
+    font-size:18px;
+    height:1vh;
+    line-height: 1vh;   
+    margin-top:3vh;
+    margin-left:3vw;
+    display:inline-block;
+
+}
+#account {
+    font-size:18px;
+    height:1vh;
+    line-height: 1vh;
+    margin-top:3vh;
+    margin-left:1vw;
+    display:inline-block;
+
 }
 .block2{
     width:40vw; 
@@ -108,18 +155,15 @@ img {
     background-color: #E7E7E7;
     margin-top:3vh;
 }
-.money{
+#a-money{
     font-size:4vh;
     height:1vh;
     line-height: 1vh;
-    margin-left:3vw;
-}
-.accountname{
-    font-size:2vh;
-    height:1vh;
-    line-height:7vh;
-    margin-left:13vw;    
-}
+    margin-top:3vh;
+    margin-left:5vw;
+    display:inline-block;
+    
+}   
 .add {
     float:right;
     color:#146390;
