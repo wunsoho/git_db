@@ -9,27 +9,17 @@ export default createStore({
         })
     ],
     state: {
-        addMember:false,
-        editMember:false,
-        addPublic:false,
-        editPublic:false,
-        addResearch:false,
-        editResearch:false
+        addContent:false
     }, 
     //상태 접근 (변경)
     mutations:{
-        openAddMember (state) {
-          state.addMember = true
+        openAddContent (state) {
+          state.addContent = true
         },
-        closeAddMember (state) {
-            state.addMember = false
+        closeAddContent (state) {
+            state.addContent = false
         },
-        openAddPublic(state){
-            state.addPublic = true
-        },
-        openAddResearch(state){
-            state.addResearch = true
-        }
+        
     },
     modules:{
 

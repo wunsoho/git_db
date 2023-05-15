@@ -1,5 +1,5 @@
 <template>
-    <body style="background-color: #F6F6F6; width: 100vw; height:100vh; margin:0">
+    <body style="width: 100vw; height:100vh; margin:0">
         <AccountBookCom style="margin-left:30vw"></AccountBookCom>
     </body>
 </template>
