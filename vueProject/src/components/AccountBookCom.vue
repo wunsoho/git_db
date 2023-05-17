@@ -1,26 +1,27 @@
 <template>
     <div>
         <div>
-            <div style="margin-left:30vw" >
+            <div>
                 <div class="title">이정원님의 총 자산</div>
             </div>
-                <div class="block">
-                    <div style="text-align: center;">
-                        <div id="total-money" class="title block-title">1,100,500</div>
-                        <div id="원" class="title block-title">원</div>
-                    </div>
-                    <div v-for="account, i in accountList" >
-                        <div :class="{'block': account.check==false}">
-                        <div class="detail-info" id="account-kind">{{account.kind}}</div>
-                        <div class="detail-info" id="account-acc">{{account.acc}}</div>
-                        <div v-if="account.cash > 0" class="detail-info account-cash">{{account.cash}}</div>
-                    <div id="원" class="title block1-title">원</div>
-                </div>
-                </div>
-                </div>
+            <!-- 총 계좌정보 -->
+            <div class="block" style="margin-bottom:12vh">
+                <div style="text-align: center;">
+                    <div id="total-money" class="title block-title">1,100,500</div>
+                    <div id="원" class="title block-title">원</div>
                 </div>
             </div>
-            <div class="title add">+계좌 추가하기</div>
+            <!-- 계좌 정보 -->
+            <div class="block1" v-for="account, i in accountList" >
+                <div class="detail-info" id="account-kind">{{account.kind}}</div>
+                <div class="detail-info" id="account-acc">{{account.acc}}</div>
+                <div class="detail-info account-cash">{{account.cash}}</div>
+                <div id="원" class="title block1-title">원</div>
+            </div>
+                
+        </div>
+        <div class="title add">+계좌 추가하기</div>
+    </div>
 </template>
 
 <script>
@@ -82,7 +83,7 @@ import {ref} from 'vue'
     border-radius: 1vh; 
     background-color: #FFFFFF;
     margin-top:3vh;
-    margin-left:30vw;
+
 }
 .block-title{
     font-size:5vh;
@@ -116,24 +117,8 @@ img {
     height:13vh;
     border-radius: 1vh; 
     background-color: #E7E7E7;
-    margin-top:10vh;
-    margin-left:30vw;
-}
-.block2{
-    width:40vw; 
-    height:13vh;
-    border-radius: 1vh; 
-    background-color: #E7E7E7;
     margin-top:3vh;
-    margin-left:30vw;
-}
-.block3{
-    width:40vw; 
-    height:13vh;
-    border-radius: 1vh; 
-    background-color: #E7E7E7;
-    margin-top:3vh;
-    margin-left:30vw;
+
 }
 .detail-info{
     display:inline-block;
@@ -166,6 +151,5 @@ img {
     float:right;
     color:#146390;
     margin-right:30vw;
-    margin-top:60vh;
 }
 </style>
