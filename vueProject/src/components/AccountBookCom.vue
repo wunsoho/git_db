@@ -1,83 +1,69 @@
 <template>
     <div>
         <div>
-            <div class="title">이정원님의 총 자산</div>
-            <div class="block">
-                <div style="text-align: center;">
-                    <div id="total-money" class="title block-title">1,100,500</div>
-                    <div id="원" class="title block-title">원</div>
-                </div>
+            <div style="margin-left:30vw" >
+                <div class="title">이정원님의 총 자산</div>
             </div>
-
-            <div class="block1">
-                <img src= "@/assets/NH.png">
-                <div>
-                    <div id="accountname" v-text= "accountname1" ></div>
-                    <div id="account" v-text= "account1" ></div> <br> 
-                    <div id="a-money" v-text= "money1" > </div> 
+                <div class="block">
+                    <div style="text-align: center;">
+                        <div id="total-money" class="title block-title">1,100,500</div>
+                        <div id="원" class="title block-title">원</div>
+                    </div>
+                    <div v-for="account, i in accountList" >
+                        <div :class="{'block': account.check==false}">
+                        <div class="detail-info" id="account-kind">{{account.kind}}</div>
+                        <div class="detail-info" id="account-acc">{{account.acc}}</div>
+                        <div v-if="account.cash > 0" class="detail-info account-cash">{{account.cash}}</div>
                     <div id="원" class="title block1-title">원</div>
                 </div>
-            </div>
-            <div class="block2">
-                <img src= "@/assets/KaKao.png">
-                <div>
-                    <div id="accountname" v-text= "accountname2"></div> 
-                    <div id="account" v-text= "account2"></div> <br>
-                    <div id="a-money" v-text= "money2"></div>
-                    <div id="원" class="title block1-title">원</div>
                 </div>
-            </div>
-            <div class="block3">
-                <img src= "@/assets/KB.png">
-                <div>
-                    <div id="accountname" v-text= "accountname3"></div> 
-                    <div id="account" v-text= "account3"></div> <br>
-                    <div id="a-money" v-text= "money3"></div>
-                    <div id="원" class="title block1-title">원</div>
+                </div>
                 </div>
             </div>
             <div class="title add">+계좌 추가하기</div>
-        </div>
-    </div>
 </template>
 
 <script>
+import {ref} from 'vue'
 
     export default{ 
         name:'accountBookCom',
         components:{
         },
         setup(){
-            let accountname1 = '농협';
-            let account1 = '352-0932-2852-43';
-            let money1 = 20000;
-
-            let accountname2 = '카카오뱅크';
-            let account2 = '3333-089-7890-32';
-            let money2 = 20000;
-
-            let accountname3 = '국민은행';
-            let account3 = '950002-00-78904';
-            let money3 = 20000;
-
-
-
-
-        {
-            return{
-                accountname1,
-                account1,
-                money1,
-                accountname2,
-                account2, 
-                money2,
-                accountname3,
-                account3, 
-                money3,
+            var accountList = ref([
+            {
+                id:1,
+                kind : '농협',
+                acc: '352-0932-2852-43',
+                cash: 20000,
+                check: false
+                
+            }, 
+            {
+                id:2,
+                kind : '카카오뱅크',
+                acc: '3333-089-7890-32',
+                cash: 20000,
+                check: false
+            },
+            {
+                id:3,
+                kind : '국민은행',
+                acc: '950002-00-78904',
+                cash: 20000,
+                check: false
             }
-        }
+        ])
+
+        var selected_List = ref([])
+
+            return{
+              accountList,
+              selected_List
         }
     }
+}
 
 
 </script>
@@ -96,6 +82,7 @@
     border-radius: 1vh; 
     background-color: #FFFFFF;
     margin-top:3vh;
+    margin-left:30vw;
 }
 .block-title{
     font-size:5vh;
@@ -108,14 +95,6 @@
 #원{
     margin-left:5vw;
 }
-.block1{
-    width:40vw; 
-    height:13vh;
-    border-radius: 1vh; 
-    background-color: #E7E7E7;
-    margin-top:15vh;
-}
-
 img {
     margin-top:1vh;
     margin-left:5vw;
@@ -132,14 +111,13 @@ img {
     display:inline-block;
 
 }
-#account {
-    font-size:18px;
-    height:1vh;
-    line-height: 1vh;
-    margin-top:3vh;
-    margin-left:1vw;
-    display:inline-block;
-
+.block1{
+    width:40vw; 
+    height:13vh;
+    border-radius: 1vh; 
+    background-color: #E7E7E7;
+    margin-top:10vh;
+    margin-left:30vw;
 }
 .block2{
     width:40vw; 
@@ -147,6 +125,7 @@ img {
     border-radius: 1vh; 
     background-color: #E7E7E7;
     margin-top:3vh;
+    margin-left:30vw;
 }
 .block3{
     width:40vw; 
@@ -154,19 +133,39 @@ img {
     border-radius: 1vh; 
     background-color: #E7E7E7;
     margin-top:3vh;
+    margin-left:30vw;
 }
-#a-money{
-    font-size:4vh;
-    height:1vh;
-    line-height: 1vh;
-    margin-top:3vh;
-    margin-left:5vw;
+.detail-info{
     display:inline-block;
-    
-}   
+    line-height: 5vh;
+    height: 5vh; 
+    font-size:1.8vh;
+    font-weight: 600;
+}
+#account-block{
+    height:5vh; 
+    width:38vw; 
+    margin-top:1vh; 
+    border:1px solid #A8A8A8;
+    border-radius: 1vh;
+}
+.account-cash{
+    width:15vw; 
+    text-align: right;
+}
+#account-acc{
+    margin-left:2vw;
+    width:19vw;
+}
+#account-kind{
+    color:#616161; 
+    width:6vw; 
+    margin-left:1vw
+}
 .add {
     float:right;
     color:#146390;
     margin-right:30vw;
+    margin-top:60vh;
 }
 </style>
