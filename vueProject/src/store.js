@@ -9,17 +9,43 @@ export default createStore({
         })
     ],
     state: {
-        addContent:false
+        //내용 추가하기 팝업
+        addContent:false,
+
+        //카테고리 수정하기 팝업
+        incomeEditCategory:false,
+        expendEditCategory:false
     }, 
     //상태 접근 (변경)
     mutations:{
+        //내용 추가하기 팝업
         openAddContent (state) {
-          state.addContent = true
+            console.log('add')
+            state.addContent = true
         },
         closeAddContent (state) {
             state.addContent = false
         },
-        
+
+        //카테고리 수정하기 팝업
+        openEditCategory (state, kind) {
+            console.log('edit')
+            if(kind == 'income'){
+                state.incomeEditCategory = true
+                state.expendEditCategory = false
+                console.log(state.incomeEditCategory)
+            }
+            else if(kind == 'expend'){
+                state.expendEditCategory = true
+                state.incomeEditCategory = false
+                console.log(state.expendEditCategory)
+            }
+        },
+        closeEditCategory (state) {
+            console.log('삭제')
+            state.incomeEditCategory = false
+            state.expendEditCategory = false
+        }
     },
     modules:{
 

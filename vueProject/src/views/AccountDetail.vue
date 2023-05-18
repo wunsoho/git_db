@@ -1,27 +1,43 @@
 <template>
     <body  style="overflow: hidden" >
-        <AccountDetailAddPopupVue v-if="contentAddPopup==true" style="position:fixed"></AccountDetailAddPopupVue>
+        <EditIncomeCategoryPopupCopy v-if="editIncomePopup==true" style="position:fixed"></EditIncomeCategoryPopupCopy>
+        <EditExpendCategoryPopup v-else-if="editExpendPopup==true" style="position:fixed"></EditExpendCategoryPopup>
+
+
+        <AccountDetailAddPopupVue v-else-if="contentAddPopup==true" style="position:fixed"></AccountDetailAddPopupVue>
         <AccountDetail style="margin-left:30vw;"></AccountDetail>
     </body>
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import AccountDetail from '@/components/accountDetail/AccountDetail.vue';
 
 import AccountDetailAddPopupVue from '../components/accountDetail/AccountDetailAddPopup.vue';
+import EditIncomeCategoryPopupCopy from '@/components/accountDetail/EditIncomeCategoryPopup.vue';
+import EditExpendCategoryPopup from '@/components/accountDetail/EditExpendCategoryPopup.vue';
 
     export default{ 
         name:'accountDetail',
         components:{
             AccountDetail,
-            AccountDetailAddPopupVue
+            AccountDetailAddPopupVue,
+            EditIncomeCategoryPopupCopy,
+            EditExpendCategoryPopup
         },
         setup(){
             var store = useStore()
-            var contentAddPopup = computed(()=> store.state.addContent);
-            return{contentAddPopup}
+            var contentAddPopup = ref(computed(()=> store.state.addContent));
+            var editIncomePopup = ref(computed(()=> store.state.incomeEditCategory));
+            var editExpendPopup = ref(computed(()=> store.state.expendEditCategory));
+
+            console.log(contentAddPopup.value)
+            return{
+                contentAddPopup,
+                editIncomePopup,
+                editExpendPopup
+            }
         }
     }
 </script>
