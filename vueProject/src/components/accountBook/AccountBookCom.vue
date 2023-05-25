@@ -13,32 +13,36 @@
             </div>
             <!-- 계좌 정보 -->
             <div class="block1" v-for="account, i in accountList" >
+                <img :src="require(`@/assets/${account.image}`)" />
                 <div class="detail-info" id="account-kind">{{account.kind}}</div>
                 <div class="detail-info" id="account-acc">{{account.acc}}</div>
-                <div class="detail-info account-cash">{{account.cash}}</div>
+                <div class="detail-info account-cash" style="font-size: 25px;">{{account.cash}}</div>
                 <div id="원" class="title block1-title">원</div>
             </div>
                 
         </div>
-        <div class="title add">+계좌 추가하기</div>
+        <div class="title add-btn" @click="openAddContentPopup()">+계좌 추가하기</div>
     </div>
 </template>
 
 <script>
 import {ref} from 'vue'
+import {useStore} from 'vuex'
 
     export default{ 
         name:'accountBookCom',
         components:{
         },
         setup(){
+            var store = useStore()
             var accountList = ref([
             {
                 id:1,
                 kind : '농협',
                 acc: '352-0932-2852-43',
                 cash: 20000,
-                check: false
+                check: false,
+                image: 'NH.png'
                 
             }, 
             {
@@ -46,22 +50,29 @@ import {ref} from 'vue'
                 kind : '카카오뱅크',
                 acc: '3333-089-7890-32',
                 cash: 20000,
-                check: false
+                check: false,
+                image: 'KaKao.png'
             },
             {
                 id:3,
                 kind : '국민은행',
                 acc: '950002-00-78904',
                 cash: 20000,
-                check: false
+                check: false,
+                image: 'KB.png'
             }
         ])
 
         var selected_List = ref([])
 
+        function openAddContentPopup(){
+                store.commit('openAddContent')
+            }
+
             return{
               accountList,
-              selected_List
+              selected_List,
+              openAddContentPopup
         }
     }
 }
@@ -94,23 +105,15 @@ import {ref} from 'vue'
     color:#13005D
 }
 #원{
-    margin-left:5vw;
-}
-img {
-    margin-top:1vh;
-    margin-left:5vw;
-    float:left;
-    width:70px; 
-    height:70px;
-}
-#accountname {
-    font-size:18px;
-    height:1vh;
-    line-height: 1vh;   
-    margin-top:3vh;
-    margin-left:3vw;
-    display:inline-block;
+    margin-left:7vw;
 
+}
+.block1 > img {
+    margin-top:1vh;
+    margin-left:2vw;
+    float:left;
+    width:60px; 
+    height:60px;
 }
 .block1{
     width:40vw; 
@@ -118,38 +121,36 @@ img {
     border-radius: 1vh; 
     background-color: #E7E7E7;
     margin-top:3vh;
+    margin-left:1vw;
 
 }
 .detail-info{
     display:inline-block;
-    line-height: 5vh;
+    line-height: 3vh;
     height: 5vh; 
     font-size:1.8vh;
     font-weight: 600;
 }
-#account-block{
-    height:5vh; 
-    width:38vw; 
-    margin-top:1vh; 
-    border:1px solid #A8A8A8;
-    border-radius: 1vh;
-}
 .account-cash{
-    width:15vw; 
+    width:8vw; 
     text-align: right;
+    font-size:3vh;
 }
 #account-acc{
-    margin-left:2vw;
     width:19vw;
+    margin-left:1vw;
 }
 #account-kind{
     color:#616161; 
-    width:6vw; 
-    margin-left:1vw
+    margin-left:3vw;
+    text-align:right;   
 }
-.add {
-    float:right;
+.add-btn{
+    float:right; 
     color:#146390;
-    margin-right:30vw;
+    margin-right: 30vw;
+}
+.add-btn:hover{
+    cursor: pointer;
 }
 </style>

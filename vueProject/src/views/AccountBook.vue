@@ -1,18 +1,27 @@
 <template>
-    <body style="width: 100vw; height:100vh; margin:0; overflow: hidden;">
-        <AccountBookCom style="margin-left:30vw; margin-top:5vh"></AccountBookCom>
+    <body style="width: 100vw; height:100vh; margin:0">
+        <AccountBookComPopupVue v-if="contentAddPopup==true" style="position:fixed"></AccountBookComPopupVue>
+        <AccountBookCom style="margin-left:30vw"></AccountBookCom>
     </body>
 </template>
 
 <script>
-import AccountBookCom from '@/components/AccountBookCom.vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import AccountBookCom from '@/components/accountBook/AccountBookCom.vue';
+
+import AccountBookComPopupVue from '../components/accountBook/AccountBookComPopup.vue';
+
     export default{ 
-        name:'Member',
+        name:'accountMain',
         components:{
-            AccountBookCom
+            AccountBookCom,
+            AccountBookComPopupVue
         },
         setup(){
-            return{}
+            var store = useStore()
+            var contentAddPopup = computed(()=> store.state.addContent);
+            return{contentAddPopup}
         }
     }
 </script>
