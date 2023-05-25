@@ -1,5 +1,6 @@
 <template>
     <body  style="overflow: hidden" >
+        <patternPopup style="position:fixed; margin-left: 62vw;"></patternPopup>
         <EditIncomeCategoryPopupCopy v-if="editIncomePopup==true" style="position:fixed"></EditIncomeCategoryPopupCopy>
         <EditExpendCategoryPopup v-else-if="editExpendPopup==true" style="position:fixed"></EditExpendCategoryPopup>
 
@@ -18,13 +19,15 @@ import AccountDetailAddPopupVue from '../components/accountDetail/AccountDetailA
 import EditIncomeCategoryPopupCopy from '@/components/accountDetail/EditIncomeCategoryPopup.vue';
 import EditExpendCategoryPopup from '@/components/accountDetail/EditExpendCategoryPopup.vue';
 
+import patternPopup from '@/components/patternAnalysis/patternPopup.vue';
     export default{ 
         name:'accountDetail',
         components:{
             AccountDetail,
             AccountDetailAddPopupVue,
             EditIncomeCategoryPopupCopy,
-            EditExpendCategoryPopup
+            EditExpendCategoryPopup,
+            patternPopup
         },
         setup(){
             var store = useStore()

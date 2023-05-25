@@ -13,6 +13,7 @@
         <div id = "content-btn">
             <button class="btn" @click="deleteContent()">삭제</button>
             <button class="btn" @click="editContent()">수정</button>
+            <input type="month" style="border-radius: 0.4vh; background-color: #ffffff; border: 1px solid #A8A8A8; height:2.7vh ">
         </div>
         <div class="block content-block">
             <div v-for="content,i in contentList" >
@@ -34,6 +35,7 @@
 <script>
 import {ref} from 'vue'
 import {useStore} from 'vuex'
+
     export default{ 
         name:'accountDetailCom',
         components:{
