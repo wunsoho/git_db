@@ -1,6 +1,6 @@
 <template>
     <body  style="overflow: hidden" >
-        <patternPopup style="position:fixed; margin-left: 62vw;"></patternPopup>
+        <patternPopup :class="{'pattern_open': pattern ===true, 'pattern_false': pattern===false}" style="position:fixed;"></patternPopup>
         <EditIncomeCategoryPopupCopy v-if="editIncomePopup==true" style="position:fixed"></EditIncomeCategoryPopupCopy>
         <EditExpendCategoryPopup v-else-if="editExpendPopup==true" style="position:fixed"></EditExpendCategoryPopup>
 
@@ -34,16 +34,25 @@ import patternPopup from '@/components/patternAnalysis/patternPopup.vue';
             var contentAddPopup = ref(computed(()=> store.state.addContent));
             var editIncomePopup = ref(computed(()=> store.state.incomeEditCategory));
             var editExpendPopup = ref(computed(()=> store.state.expendEditCategory));
+            var store = useStore()
 
+            var pattern = computed(()=>store.state.pattern)
             console.log(contentAddPopup.value)
             return{
                 contentAddPopup,
                 editIncomePopup,
-                editExpendPopup
+                editExpendPopup,
+                pattern
             }
         }
     }
 </script>
 
 <style>
+.pattern_open{
+    margin-left:97vw;
+}
+.pattern_false{
+    margin-left:62vw;
+}
 </style>

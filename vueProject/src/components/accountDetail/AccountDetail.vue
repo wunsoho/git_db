@@ -1,8 +1,9 @@
 <template>
-    <div style="background-color: width:40vw;">
+    <div style="width:40vw;">
         <!-- 해당 계좌의 총 잔액 -->
-        <div style="margin-top:10vh">
-            <img class="title-bank-icon" src="@/assets/농협.png" style="margin-right:5vw;">
+        
+        <div style="margin-top:8vh;">
+            <img class="title-bank-icon" src="@/assets/농협.png" style="margin-right:6vw; margin-left:3vw">
             <div id="content-total">
                 <div style="font-size:2vh">{{accountInfo.kind}} {{accountInfo.accountNum}}</div>
                 <div class="title block-title content-block-title">{{accountInfo.money}}</div>
@@ -10,7 +11,7 @@
             </div>
         </div>
         <!-- 버튼 -->
-        <div id = "content-btn">
+        <div id = "content-btn" style="clear:both">
             <button class="btn" @click="deleteContent()">삭제</button>
             <button class="btn" @click="editContent()">수정</button>
             <input type="month" style="border-radius: 0.4vh; background-color: #ffffff; border: 1px solid #A8A8A8; height:2.7vh ">
@@ -26,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div style="width:40vw">
+        <div style="width:40vw; height: 10vh;">
             <div class="title add-btn" @click="openAddContentPopup()">+ 내용 추가하기</div>
         </div>
     </div>
@@ -141,6 +142,7 @@ import {useStore} from 'vuex'
 .title-bank-icon{
     width:5vw;
     height:9.5vh;
+    float:left;
 }
 .content-money{
     width:9vw; 
@@ -180,7 +182,6 @@ import {useStore} from 'vuex'
     background-color:#e1e1e1
 }
 .add-btn{
-    float:right; 
     color:#146390
 }
 .add-btn:hover{
@@ -198,7 +199,7 @@ import {useStore} from 'vuex'
 }
 #content-btn{
     width:40vw; 
-    margin-top:2vh; 
+    margin-top:4vh; 
     height: 4vh;
 }
 </style>

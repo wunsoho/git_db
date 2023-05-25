@@ -14,7 +14,10 @@ export default createStore({
 
         //카테고리 수정하기 팝업
         incomeEditCategory:false,
-        expendEditCategory:false
+        expendEditCategory:false,
+
+        //패턴 분석
+        pattern: false,
     }, 
     //상태 접근 (변경)
     mutations:{
@@ -45,6 +48,11 @@ export default createStore({
             console.log('삭제')
             state.incomeEditCategory = false
             state.expendEditCategory = false
+        },
+
+        clickPatternPopup(state) {
+            state.pattern = ! state.pattern
+            console.log(state.pattern )
         }
     },
     modules:{

@@ -9,6 +9,8 @@ import {
   Legend,
   ArcElement,
   CategoryScale,
+  registerables
+
 } from 'chart.js'
 
 ChartJS.register(
@@ -16,7 +18,9 @@ ChartJS.register(
   Tooltip, 
   Legend, 
   ArcElement, 
-  CategoryScale
+  CategoryScale,
+  ...registerables,
+  
 )
 
 export default defineComponent({
@@ -82,7 +86,7 @@ export default defineComponent({
       maintainAspectRatio: false,
       plugins:{
         legend: {
-          display: true,
+          display: false,
           position:'right' as const,
           align	: 'start' as const,
           labels : {

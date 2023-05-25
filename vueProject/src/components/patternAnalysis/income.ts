@@ -66,13 +66,12 @@ export default defineComponent({
 
     const chartData = {
       labels: [
-        '현재 총 탄소 배출량','목표 탄소 배출량'
+        '월급','용돈'
       ],
       datasets: [
         {
-          label: '탄소 배출량 percent',
           backgroundColor: ['#FF7E66','#FFBD60','#A7B901','#00A29B','#EEE8AC','#E9DF56'],
-          data: [50,10,60,50,70,90],
+          data: [50,10],
         },
       ],
     }
@@ -82,7 +81,7 @@ export default defineComponent({
       maintainAspectRatio: false,
       plugins:{
         legend: {
-          display: true,
+          display: false,
           position:'right' as const,
           align	: 'start' as const,
           labels : {
