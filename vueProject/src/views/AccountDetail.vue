@@ -1,6 +1,6 @@
 <template>
-    <body  style="overflow: hidden" >
-        <patternPopup :class="{'pattern_open': pattern ===true, 'pattern_false': pattern===false}" style="position:fixed;"></patternPopup>
+    <body style="overflow: hidden" >
+        <patternPopup :class="{'pattern_open': pattern ===false, 'pattern_false': pattern===true}" style="position:fixed;"></patternPopup>
         <EditIncomeCategoryPopupCopy v-if="editIncomePopup==true" style="position:fixed"></EditIncomeCategoryPopupCopy>
         <EditExpendCategoryPopup v-else-if="editExpendPopup==true" style="position:fixed"></EditExpendCategoryPopup>
 

@@ -3,10 +3,10 @@
         <!-- 해당 계좌의 총 잔액 -->
         
         <div style="margin-top:8vh;">
-            <img class="title-bank-icon" src="@/assets/농협.png" style="margin-right:6vw; margin-left:3vw">
+            <img class="title-bank-icon" :src="imgPath" style="margin-right:6vw; margin-left:3vw">
             <div id="content-total">
-                <div style="font-size:2vh">{{accountInfo.kind}} {{accountInfo.accountNum}}</div>
-                <div class="title block-title content-block-title">{{accountInfo.money}}</div>
+                <div style="font-size:2vh">{{account.kind}} {{account.acc}}</div>
+                <div class="title block-title content-block-title">{{account.money}}</div>
                 <div class="title block-title content-block-title" style="margin-left:5vw">원</div>
             </div>
         </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import {ref} from 'vue'
+import {ref,computed} from 'vue'
 import {useStore} from 'vuex'
 
     export default{ 
@@ -43,17 +43,15 @@ import {useStore} from 'vuex'
         },
         setup(){
             var store = useStore()
-            var accountInfo = {
-                kind:'농협',
-                accountNum:'817016-51-003893',
-                money:'900,000'
-            }
+            var account = computed(()=> store.state.account)
+            var imgPath = require("@/assets/"+account.value.kind+".png")
             var contentList = ref([
                 {
                     id:1,
                     date:'2023-05-05',
                     content:'초콜릿 구매',
                     money:-2000,
+                    id:'',
                     check : false
                 },
                 {
@@ -61,6 +59,7 @@ import {useStore} from 'vuex'
                     date:'2023-05-04',
                     content:'초콜릿 구매',
                     money:-2000,
+                    id:'',
                     check : false
                 },
                 {
@@ -68,6 +67,7 @@ import {useStore} from 'vuex'
                     date:'2023-05-03',
                     content:'용돈',
                     money:300000,
+                    id:'',
                     check : false
                 },
                 {
@@ -75,6 +75,7 @@ import {useStore} from 'vuex'
                     date:'2023-05-02',
                     content:'알바비',
                     money:600000,
+                    id:'',
                     check : false
                 },
             ])
@@ -114,11 +115,12 @@ import {useStore} from 'vuex'
             }
             return{
                 contentList,
-                accountInfo,
+                account,
                 clickContent,
                 selected_List,
                 editContent,
-                openAddContentPopup
+                openAddContentPopup,
+                imgPath
           
             }
         }

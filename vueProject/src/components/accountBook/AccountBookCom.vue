@@ -12,12 +12,13 @@
                 </div>
             </div>
             <!-- 계좌 정보 -->
-            <div class="block1" v-for="account, i in accountList" >
+            <div class="block1" v-for="account, i in accountList" @click="clickAccount(account)">
                 <img :src="require(`@/assets/${account.image}`)" />
                 <div class="detail-info" id="account-kind">{{account.kind}}</div>
-                <div class="detail-info" id="account-acc">{{account.acc}}</div>
-                <div class="detail-info account-cash" style="font-size: 25px;">{{account.cash}}</div>
-                <div id="원" class="title block1-title">원</div>
+                <div class="detail-info" id="account-acc" >{{account.acc}}</div>
+                <div class="account-cash" style="font-size: 25px;">{{account.money}}</div>
+                <span id="원" class="title block1-title">원</span>
+                
             </div>
                 
         </div>
@@ -28,19 +29,20 @@
 <script>
 import {ref} from 'vue'
 import {useStore} from 'vuex'
-
+import { useRouter, useRoute } from 'vue-router'
     export default{ 
         name:'accountBookCom',
         components:{
         },
         setup(){
+            var router = useRouter()
             var store = useStore()
             var accountList = ref([
             {
                 id:1,
                 kind : '농협',
                 acc: '352-0932-2852-43',
-                cash: 20000,
+                money: 20000,
                 check: false,
                 image: 'NH.png'
                 
@@ -49,7 +51,7 @@ import {useStore} from 'vuex'
                 id:2,
                 kind : '카카오뱅크',
                 acc: '3333-089-7890-32',
-                cash: 20000,
+                money: 20000,
                 check: false,
                 image: 'KaKao.png'
             },
@@ -57,7 +59,7 @@ import {useStore} from 'vuex'
                 id:3,
                 kind : '국민은행',
                 acc: '950002-00-78904',
-                cash: 20000,
+                money: 20000,
                 check: false,
                 image: 'KB.png'
             }
@@ -66,13 +68,18 @@ import {useStore} from 'vuex'
         var selected_List = ref([])
 
         function openAddContentPopup(){
-                store.commit('openAddContent')
-            }
+            store.commit('openAddContent')
+        }
+        function clickAccount(account){
+            store.commit("clickAccount",account)
+            router.push({ path: '/detail' })
+        }
 
-            return{
-              accountList,
-              selected_List,
-              openAddContentPopup
+        return{
+            accountList,
+            selected_List,
+            openAddContentPopup,
+            clickAccount
         }
     }
 }
@@ -116,25 +123,27 @@ import {useStore} from 'vuex'
     height:60px;
 }
 .block1{
-    width:40vw; 
-    height:13vh;
+    width:38vw; 
+    height:10vh;
     border-radius: 1vh; 
     background-color: #E7E7E7;
     margin-top:3vh;
-    margin-left:1vw;
-
+    padding:2vh
 }
 .detail-info{
     display:inline-block;
-    line-height: 3vh;
-    height: 5vh; 
+    line-height: 2vh;
+    height: 2vh; 
     font-size:1.8vh;
     font-weight: 600;
 }
 .account-cash{
     width:8vw; 
     text-align: right;
-    font-size:3vh;
+    font-size:5vh;
+    font-weight: 900;
+    margin-left:5vw;
+    display:inline-block;
 }
 #account-acc{
     width:19vw;

@@ -18,9 +18,19 @@ export default createStore({
 
         //패턴 분석
         pattern: false,
+
+        //main화면
+        account:'',
+
     }, 
     //상태 접근 (변경)
     mutations:{
+
+        //계좌 클릭
+        clickAccount(state, account){
+            state.account= account
+            console.log(state.account)
+        },
         //내용 추가하기 팝업
         openAddContent (state) {
             console.log('add')

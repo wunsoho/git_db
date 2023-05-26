@@ -8,7 +8,7 @@
                 석
             </div>
         </div>
-        <div class="pattern-block" style="float:left" v-if="pattern==false">
+        <div class="pattern-block" style="float:left" v-if="pattern==true">
             <div class="pattern-header">
                 <input type="month" id="currnetMonth" v-model="date">
                 <div>수입, 지출 패턴 분석</div>
