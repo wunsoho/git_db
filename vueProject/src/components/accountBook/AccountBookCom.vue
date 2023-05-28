@@ -15,8 +15,8 @@
             <div class="block1" v-for="account, i in accountList" @click="clickAccount(account)">
                 <img :src="require(`@/assets/${account.image}`)" />
                 <div class="detail-info" id="account-kind">{{account.kind}}</div>
-                <div class="detail-info" id="account-acc" >{{account.acc}}</div>
-                <div class="account-cash" style="font-size: 25px;">{{account.money}}</div>
+                <div class="detail-info" id="account-acc"  >{{account.acc}}</div>
+                <div class="account-cash" style="font-size: 25px; margin-top:0; ">{{account.money}}</div>
                 <span id="원" class="title block1-title">원</span>
                 
             </div>
@@ -124,7 +124,7 @@ import { useRouter, useRoute } from 'vue-router'
 }
 .block1{
     width:38vw; 
-    height:10vh;
+    height:12vh;
     border-radius: 1vh; 
     background-color: #E7E7E7;
     margin-top:3vh;
@@ -152,7 +152,8 @@ import { useRouter, useRoute } from 'vue-router'
 #account-kind{
     color:#616161; 
     margin-left:3vw;
-    text-align:right;   
+    text-align:right; 
+
 }
 .add-btn{
     float:right; 

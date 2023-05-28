@@ -8,8 +8,8 @@
 
             <!-- 날짜 선택란 -->
             <div>
-                <div class="title input-title" style="margin-top:10vh">날짜 선택</div>
-                <input type="date" class="popup-input">
+                <div class="title input-title"  style="margin-top:10vh">날짜 선택</div>
+                <input type="date" v-model = date_ class="popup-input">
             </div>
             <!-- 카테고리 선택란 -->
             <div>
@@ -30,7 +30,7 @@
                 <div class="title input-title">금액입력</div><br>
                 
                 <!-- 입력칸 -->
-                <input class="popup-input popup-input-white" style="width:18vw; display: inline-block;">
+                <input class="popup-input popup-input-white" v-model="money" style="width:18vw; display: inline-block;">
                 <div class="title" style="display: inline-block; margin-left:1vw; margin-top:1vh; font-size:2vh">원</div>
             </div>
             <button class="ok-btn" @click="clickOk()">확인</button>
@@ -49,7 +49,8 @@ import { useStore } from 'vuex';
         setup(){
             // 수입인지 지출인지
             var kind = ref('income') 
-
+            var date_ = ref('')
+            var money = ref('')
             var selectList =ref([
                 '여가활동',
                 '간식',
@@ -57,12 +58,19 @@ import { useStore } from 'vuex';
                 '약'
             ])
 
-            var selectetIncome = selectList.value[0];
+            var selectetIncome = ref(selectList.value[0]);
             var store = useStore()
             function closeDetailAddPopup(){
                 store.commit('closeAddContent')
             }
             function clickOk(){
+                var list = {
+                    id:-1,
+                    date:date_.value,
+                    content:selectetIncome.value,
+                    money:money.value,
+                    check : false
+                }
                 closeDetailAddPopup()
             }
             function clickEdit(){
@@ -74,7 +82,8 @@ import { useStore } from 'vuex';
                 selectList,
                 clickEdit,
                 clickOk,
-                kind
+                kind,
+                date_
             }
         }
     }

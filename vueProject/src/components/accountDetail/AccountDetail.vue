@@ -51,7 +51,6 @@ import {useStore} from 'vuex'
                     date:'2023-05-05',
                     content:'초콜릿 구매',
                     money:-2000,
-                    id:'',
                     check : false
                 },
                 {
@@ -59,7 +58,7 @@ import {useStore} from 'vuex'
                     date:'2023-05-04',
                     content:'초콜릿 구매',
                     money:-2000,
-                    id:'',
+    
                     check : false
                 },
                 {
@@ -67,7 +66,6 @@ import {useStore} from 'vuex'
                     date:'2023-05-03',
                     content:'용돈',
                     money:300000,
-                    id:'',
                     check : false
                 },
                 {
@@ -75,7 +73,6 @@ import {useStore} from 'vuex'
                     date:'2023-05-02',
                     content:'알바비',
                     money:600000,
-                    id:'',
                     check : false
                 },
             ])
@@ -98,16 +95,24 @@ import {useStore} from 'vuex'
                     }
                     
                 }
-                console.log(selected_List.value)
             }
 
             function deleteContent(){
-      
+                var del_List = []
+                for (var i=0; i < selected_List.value.length; i++){
+                    del_List.push(selected_List.value[i].id)
+                    
+                }
+                console.log(del_List)
+                
             }
 
             function editContent(){
                 if(selected_List.value.length > 1) {
                     alert('하나만 선택하세요')
+                }
+                else{
+                    store.commit('openEditContent',selected_List.value[0])
                 }
             }
             function openAddContentPopup(){
@@ -120,7 +125,8 @@ import {useStore} from 'vuex'
                 selected_List,
                 editContent,
                 openAddContentPopup,
-                imgPath
+                imgPath,
+                deleteContent
           
             }
         }

@@ -8,7 +8,6 @@
             <!-- 버튼 -->
             <div style="margin-top:8vh">
                 <button class="btn" @click="deleteContent()">삭제</button>
-                <button class="btn" @click="editContent()">수정</button>
             </div>
 
             <div style="margin-top:10vh; padding:2vh 1vw;">
@@ -51,6 +50,7 @@ import { useStore } from 'vuex';
 
             //확인 버튼 누를시
             function clickOk(){       
+                console.log(contentList ,'저장')
                 closeDetailAddPopup()
             }
 

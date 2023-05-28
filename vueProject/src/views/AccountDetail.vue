@@ -4,7 +4,7 @@
         <EditIncomeCategoryPopupCopy v-if="editIncomePopup==true" style="position:fixed"></EditIncomeCategoryPopupCopy>
         <EditExpendCategoryPopup v-else-if="editExpendPopup==true" style="position:fixed"></EditExpendCategoryPopup>
 
-
+        <AccountDetailEditPopup v-else-if="contentEditPopup==true" style="position:fixed"></AccountDetailEditPopup>
         <AccountDetailAddPopupVue v-else-if="contentAddPopup==true" style="position:fixed"></AccountDetailAddPopupVue>
         <AccountDetail style="margin-left:30vw;"></AccountDetail>
     </body>
@@ -16,6 +16,7 @@ import { useStore } from 'vuex';
 import AccountDetail from '@/components/accountDetail/AccountDetail.vue';
 
 import AccountDetailAddPopupVue from '../components/accountDetail/AccountDetailAddPopup.vue';
+import AccountDetailEditPopup from '@/components/accountDetail/AccountDetailEditPopup.vue';
 import EditIncomeCategoryPopupCopy from '@/components/accountDetail/EditIncomeCategoryPopup.vue';
 import EditExpendCategoryPopup from '@/components/accountDetail/EditExpendCategoryPopup.vue';
 
@@ -25,6 +26,7 @@ import patternPopup from '@/components/patternAnalysis/patternPopup.vue';
         components:{
             AccountDetail,
             AccountDetailAddPopupVue,
+            AccountDetailEditPopup,
             EditIncomeCategoryPopupCopy,
             EditExpendCategoryPopup,
             patternPopup
@@ -32,6 +34,7 @@ import patternPopup from '@/components/patternAnalysis/patternPopup.vue';
         setup(){
             var store = useStore()
             var contentAddPopup = ref(computed(()=> store.state.addContent));
+            var contentEditPopup = ref(computed(()=>store.state.editContent));
             var editIncomePopup = ref(computed(()=> store.state.incomeEditCategory));
             var editExpendPopup = ref(computed(()=> store.state.expendEditCategory));
             var store = useStore()
@@ -40,6 +43,7 @@ import patternPopup from '@/components/patternAnalysis/patternPopup.vue';
             console.log(contentAddPopup.value)
             return{
                 contentAddPopup,
+                contentEditPopup,
                 editIncomePopup,
                 editExpendPopup,
                 pattern

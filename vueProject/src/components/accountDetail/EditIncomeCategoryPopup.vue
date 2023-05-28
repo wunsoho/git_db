@@ -8,7 +8,6 @@
             <!-- 버튼 -->
             <div style="margin-top:8vh">
                 <button class="btn" @click="deleteContent()">삭제</button>
-                <button class="btn" @click="editContent()">수정</button>
             </div>
             <div style="margin-top:10vh; padding:2vh 1vw;">
                 <div style="width:23vw;height: 40vh;  overflow:auto">
@@ -46,10 +45,8 @@ import { useStore } from 'vuex';
                 store.commit('closeEditCategory')
             }
             function clickOk(){
+                console.log(contentList ,'저장')
                 closeDetailAddPopup()
-            }
-            function clickEdit(){
-                store.commit('openEditCategory')
             }
 
             var addInput = ref(false)
@@ -57,7 +54,9 @@ import { useStore } from 'vuex';
             function addCategory(){
                 addInput.value = true
             }
-
+            function deleteContent(){
+                alert('삭제하시겠습니까')
+            }
             var incomeAddContent = ref('')
             function completeAddCategory(){
                 if(incomeAddContent.value == ''){
@@ -71,7 +70,6 @@ import { useStore } from 'vuex';
                 addInput.value=false
             }
             return{
-                clickEdit,
                 clickOk,
                 closeDetailAddPopup,
                 contentList,

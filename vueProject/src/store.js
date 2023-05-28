@@ -12,6 +12,10 @@ export default createStore({
         //내용 추가하기 팝업
         addContent:false,
 
+        //내용 수정하기 팝업
+        editContent:false,
+        editList :[],
+
         //카테고리 수정하기 팝업
         incomeEditCategory:false,
         expendEditCategory:false,
@@ -38,6 +42,16 @@ export default createStore({
         },
         closeAddContent (state) {
             state.addContent = false
+        },
+
+        //내용 수정하기 팝업
+        openEditContent(state,list){
+            state.editContent = true
+            state.editList = list
+        },
+        closeEditContent(state,list){
+            state.editContent = false
+            state.editList = []
         },
 
         //카테고리 수정하기 팝업
