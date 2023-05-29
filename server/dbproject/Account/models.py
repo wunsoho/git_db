@@ -13,12 +13,14 @@ class Income(models.Model):
     id = models.AutoField(primary_key=True)
     account_id = models.ForeignKey("Account" , on_delete = models.CASCADE)
     in_category = models.ForeignKey("IncomKind", null=True, on_delete = models.SET_NULL)
+    money = models.IntegerField()
     date = models.DateField()
 
 class Expenditure(models.Model):
     id = models.AutoField(primary_key=True)
     account_id = models.ForeignKey("Account" , on_delete = models.CASCADE)
     ex_category = models.ForeignKey("ExpendKind" , null=True, on_delete = models.SET_NULL)
+    money = models.IntegerField()
     date = models.DateField()
 
 class IncomKind(models.Model):
