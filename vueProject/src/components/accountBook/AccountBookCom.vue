@@ -30,14 +30,17 @@
 import {ref} from 'vue'
 import {useStore} from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
-    export default{ 
-        name:'accountBookCom',
-        components:{
-        },
-        setup(){
-            var router = useRouter()
-            var store = useStore()
-            var accountList = ref([
+import axios from 'axios'
+
+export default{ 
+    name:'accountBookCom',
+    components:{
+    },
+    
+    setup(){
+        var router = useRouter()
+        var store = useStore()
+        var accountList = ref([
             {
                 id:1,
                 kind : '농협',
@@ -75,13 +78,42 @@ import { useRouter, useRoute } from 'vue-router'
             router.push({ path: '/detail' })
         }
 
+        //계좌별 잔액 가져오는 API
+        async function get_total_Account(){
+            await axios.get("/api/users/getTotalAccount").then(res => {
+                console.log(res.data)
+                accountList.value = res.data
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            .finally(() => {
+            })
+        }
+        //총 잔액 가져오는 API
+        async function get_total_Money(){
+            await axios.get("/api/users/getTotalMoney").then(res => {
+                console.log(res.data)
+                accountList.value = res.data
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            .finally(() => {
+            })
+        }
+
         return{
             accountList,
             selected_List,
             openAddContentPopup,
-            clickAccount
+            clickAccount,
+            get_total_Account
         }
-    }
+    },
+    created(){
+        this.get_total_Account()
+    },
 }
 
 

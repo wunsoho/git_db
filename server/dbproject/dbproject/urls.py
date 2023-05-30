@@ -16,7 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from Account.views import TotalMoneyInfo
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+]
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+		path('TotalMoneyInfo/', TotalMoneyInfo.as_view())
 ]

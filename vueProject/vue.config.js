@@ -3,7 +3,16 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave:false,
   devServer: {
-    proxy : 'http://117.16.164.20:10000'
-  }
+    proxy : {
+      'api': {
+        target: 'http://localhost:3000/api',
+        changeOrigin : true,
+        pathRewrite: {
+          '^/api':''
+        }
+      }
+    },
+  },
+  outputDir : '../backend/public', //배포 위치
 })
 

@@ -1,5 +1,5 @@
-from rest_framework import serializerss
-from .models import TotalMoney,Account,Income,Expenditure,IncomKind,ExpendKind
+from rest_framework import serializers
+from .models import TotalMoney,Account,TotalAccountMoney,Income,Expenditure,IncomKind,ExpendKind
 
 class TotalMoneySerializer(serializers.ModelSerializer):
    class Meta:
@@ -10,7 +10,12 @@ class AccountSerializer(serializers.ModelSerializer):
    class Meta:
        model = Account
        fields = ('id', 'bank', 'account_num')
-    
+
+class TotalAccountMoneySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TotalAccountMoney
+        fields = "__all__"
+        
 class IncomeSerializer(serializers.ModelSerializer):
    class Meta:
        model = Income
@@ -30,3 +35,4 @@ class ExpendKindSerializer(serializers.ModelSerializer):
    class Meta:
        model = ExpendKind
        fields = ('ex_category')
+

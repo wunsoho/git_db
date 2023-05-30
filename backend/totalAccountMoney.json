@@ -1,0 +1,19 @@
+[
+    {
+        "id":1,
+        "kind" : "농협",
+        "acc": "352-0932-2852-43",
+        "money": 20000,
+        "check": false,
+        "image": "NH.png"
+        
+    }, 
+    {
+        "id":2,
+        "kind" : "카카오뱅크",
+        "acc": "3333-089-7890-32",
+        "money": 20000,
+        "check": false,
+        "image": "KaKao.png"
+    }
+  ]

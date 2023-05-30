@@ -9,37 +9,37 @@
             </div>
             <div class="block2">
                 <div style="width:5vw; float:left" @click="clickBank('농협은행')">
-                    <img src = "@/assets/농협.png" style="display:block;"> 
+                    <img src = "@/assets/농협은행.png" style="display:block;"> 
                     <div>농협은행</div>
                 </div>
-                <div style="width:5vw; float:left" @click="clickBank('카카오 뱅크')">
+                <div style="width:5vw; float:left" @click="clickBank('카카오뱅크')">
                     <img src = "@/assets/카카오뱅크.png" style="display:block;"> 
                     <div>카카오뱅크</div>
                 </div>
-                <div style="width:5vw; float:left" @click="clickBank('기업 은행')">
-                    <img src = "@/assets/기업.png" style="display:block;"> 
+                <div style="width:5vw; float:left" @click="clickBank('기업은행')">
+                    <img src = "@/assets/기업은행.png" style="display:block;"> 
                     <div>기업은행</div>
                 </div>
-                <div style="width:5vw; float:left" @click="clickBank('우리 은행')">
-                    <img src = "@/assets/우리.png" style="display:block;"> 
+                <div style="width:5vw; float:left" @click="clickBank('우리은행')">
+                    <img src = "@/assets/우리은행.png" style="display:block;"> 
                     <div>우리은행</div>
                 </div>
             </div>
             <div class="block2">
-                <div style="width:5vw; float:left" @click="clickBank('국민 은행')">
-                    <img src = "@/assets/국민.png" style="display:block;"> 
-                    <div>국민 은행</div>
+                <div style="width:5vw; float:left" @click="clickBank('국민은행')">
+                    <img src = "@/assets/국민은행.png" style="display:block;"> 
+                    <div>국민은행</div>
                 </div>
-                <div style=" width:5vw; float:left" @click="clickBank('하나 은행')">
-                    <img src = "@/assets/하나.png" style="display:block;"> 
+                <div style=" width:5vw; float:left" @click="clickBank('하나은행')">
+                    <img src = "@/assets/하나은행.png" style="display:block;"> 
                     <div>하나은행</div>
                 </div>
-                <div style="width:5vw; float:left" @click="clickBank('신한 은행')">
-                    <img src = "@/assets/신한.png" style="display:block;"> 
+                <div style="width:5vw; float:left" @click="clickBank('신한은행')">
+                    <img src = "@/assets/신한은행.png" style="display:block;"> 
                     <div>신한은행</div>
                 </div>
                 <div style="width:5vw; float:left" @click="clickBank('새마을금고')">
-                    <img src = "@/assets/새마을.png" style="display:block;"> 
+                    <img src = "@/assets/새마을금고.png" style="display:block;"> 
                     <div>새마을금고</div>
                 </div>
             </div>   
@@ -78,13 +78,32 @@ import {ref} from 'vue';
 
             function clickOk(){
                 closeDetailAddPopup()
+                // set_total_Account()
             }
-            
+
+            var accountdata = {
+                bank: '농협',
+                acc:'계좌번호',
+                money: 5000,
+                img: ""
+            }
+
+            // async function set_total_Account(){
+            //     await axios.post("/api/users/setTotalAccount",{accontdata: accountdata.value}).then(res => {
+            //         console.log(res.data)
+            //     })
+            //     .catch(error => {
+            //         console.log(error)
+            //     })
+            //     .finally(() => {
+            //     })
+            // }
+
             return{
                 closeDetailAddPopup,
                 bank,
                 clickBank,
-                clickOk
+                clickOk,
             }
         }
     }
