@@ -67,7 +67,7 @@ import axios from 'axios'
                     account_id:account.value.id,
                     date:date_.value,
                     content:selectContent.value,
-                    money:money1.value,
+                    money:parseInt(money1.value),
                     kind : kind.value
                 }
         
