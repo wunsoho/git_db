@@ -20,8 +20,12 @@
                     <input type="radio" name="chk_info" v-model="kind" value="income" checked>수입
                     <input type="radio" name="chk_info" v-model="kind" value="expend" style="margin-left:2vw">지출
                 </div>
-                <select :v-model="selectetIncome" class="select-popup popup-input" style="width:23vw; height:4.5vh">
-                    <option v-for="item in selectList" :key="item" :value="item" style="float:left">{{ item }}</option>
+                <select  v-if="kind == 'income'" v-model="selectContent" class="select-popup popup-input" style="width:23vw; height:4.5vh">
+                    <option v-for="item in incomekindList" :key="item" :value="item.in_category" style="float:left">{{ item.in_category }}</option>
+                    <button style="float:right">X</button>
+                </select>
+                <select  v-else-if="kind == 'expend'" v-model="selectContent" class="select-popup popup-input" style="width:23vw; height:4.5vh">
+                    <option v-for="item in expendkindList" :key="item" :value="item.ex_category" style="float:left">{{ item.ex_category }}</option>
                     <button style="float:right">X</button>
                 </select>
             </div>
@@ -30,18 +34,18 @@
                 <div class="title input-title">금액입력</div><br>
                 
                 <!-- 입력칸 -->
-                <input class="popup-input popup-input-white" v-model="money" style="width:18vw; display: inline-block;">
+                <input class="popup-input popup-input-white" v-model="money1" style="width:18vw; display: inline-block;">
                 <div class="title" style="display: inline-block; margin-left:1vw; margin-top:1vh; font-size:2vh">원</div>
             </div>
-            <button class="ok-btn" @click="clickOk()">확인</button>
+            <button class="ok-btn" @click="clickOk(kind)">확인</button>
         </div>
     </div>
 </template>
 
 <script>
-import {ref} from 'vue'
+import {ref, computed} from 'vue'
 import { useStore } from 'vuex';
-
+import axios from 'axios'
     export default{ 
         name:'accountDetailCom',
         components:{
@@ -50,44 +54,84 @@ import { useStore } from 'vuex';
             // 수입인지 지출인지
             var kind = ref('income') 
             var date_ = ref('')
-            var money = ref('')
-            var selectList =ref([
-                '여가활동',
-                '간식',
-                '음식점',
-                '약'
-            ])
+            var money1 = ref(0)
+            var incomekindList =ref([])
+            var expendkindList =ref([])
+            var selectContent = ref('')
+            var store = useStore()
+            var account = computed(()=> store.state.account)
 
-            var selectetIncome = ref(selectList.value[0]);
+        
+            async function set_Content(){
+                var list = {
+                    account_id:account.value.id,
+                    date:date_.value,
+                    content:selectContent.value,
+                    money:money1.value,
+                    kind : kind.value
+                }
+        
+                await axios.post("/api/users/setContent",list).then(res => {
+                    console.log(res.data)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                .finally(() => {
+                })
+            }
+
+            async function set_kindList(){
+                await axios.get("/api/users/getIncomeKind").then(res => {
+                    incomekindList.value = res.data
+                    console.log(res.data)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                .finally(() => {
+                })
+
+                await axios.get("/api/users/getExpendKind").then(res => {
+                    expendkindList.value = res.data
+                    console.log('expendList',res.data)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                .finally(() => {
+                })
+            }
+            
             var store = useStore()
             function closeDetailAddPopup(){
                 store.commit('closeAddContent')
             }
-            function clickOk(){
-                var list = {
-                    id:-1,
-                    date:date_.value,
-                    content:selectetIncome.value,
-                    money:money.value,
-                    check : false
-                }
+            function clickOk(){   
+                set_Content()
                 closeDetailAddPopup()
             }
             function clickEdit(){
                 store.commit('openEditCategory',kind.value)
             }
+            set_kindList()
+
+            
             return{
                 closeDetailAddPopup,
-                selectetIncome,
-                selectList,
+                incomekindList,
+                expendkindList,
                 clickEdit,
                 clickOk,
                 kind,
-                date_
+                date_,
+                set_Content,
+                money1,
+                selectContent,
             }
         }
     }
-
+    
 
 </script>
 

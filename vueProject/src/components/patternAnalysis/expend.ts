@@ -22,6 +22,7 @@ ChartJS.register(
   ...registerables,
   
 )
+import axios from 'axios'
 
 export default defineComponent({
   name: 'DoughnutChart',
@@ -48,35 +49,17 @@ export default defineComponent({
   },
   setup(props) {
     var store =useStore()
-    //날짜 그룹명
-    var user_group = computed(()=> store.state.user_group)
-    var selected_company = computed(()=> store.state.insight_selected_company)
-
-    var now = new Date();	// 현재 날짜 및 시간
-    var year = now.getFullYear()	// 년도
-    var month = now.getMonth()
-
-    //서버
-    var server_total_data = [20,10,30,50,40,20,20,40,10,60,20,50]
-    var server_targetTotal_data = 570
-
-
-    var sum =ref(0) //작년 총 탄소 배출량
-
-    for(var i=0; i<server_total_data.length; i++){
-        sum.value = server_total_data[i] + sum.value
-    }
-
+ 
+    var expend_data = computed(()=>store.state.expendData)
+    var expend_label = computed(()=>store.state.expendLabel)
 
     const chartData = {
-      labels: [
-        '여가','생필품','음식점','간식', '식비'
-      ],
+      labels:expend_label.value,
       datasets: [
         {
-          label: '탄소 배출량 percent',
+          label: '',
           backgroundColor: ['#FF7E66','#FFBD60','#A7B901','#00A29B','#EEE8AC','#E9DF56'],
-          data: [50,10,60,50,70,90],
+          data:expend_data.value,
         },
       ],
     }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div style="width:3vw; height:18vh; background-color: #D9D9D9; float:left; border-radius: 4vh 0 0 4vh;" @click ="clickPattern()">
+        <div style="width:3vw; height:18vh; background-color: #D9D9D9; float:right; border-radius: 0 4vh 4vh 0;" @click ="clickPattern()">
             <div style="width:inherit; text-align: center; margin-top:2vh; font-size:1.6vh; font-weight: bold; " >
                 패 <br>
                 턴 <br>
@@ -10,18 +10,18 @@
         </div>
         <div class="pattern-block" style="float:left" v-if="pattern==true">
             <div class="pattern-header">
-                <input type="month" id="currnetMonth" v-model="date">
+                <input type="month" id="currnetMonth" v-model="date" @change="monthCal()">
                 <div>수입, 지출 패턴 분석</div>
             </div>
 
             <div style="margin-top:4vh">
                 <div class="pattern-title">수입 패턴 분석</div>
                 <div class="pattern-board">
-                    <income style="height:20vh; width:15vw; float:left"></income>
+                    <income style="height:20vh; width:15vw; float:right"></income>
                     <div style="float:left; margin-left:2vw; overflow: auto; height: 20vh; padding:0 1vw">
                         <div v-for="incom, i in incomList" >
                             <div class="legend-style" :style="{ background:activeColor[i]}"></div>
-                            <span style="display:inline-block; width:5vw; margin-bottom:1.7vh">{{incom.kind}}</span><span>{{ incom.money }}원</span>
+                            <span style="display:inline-block; width:5vw; margin-bottom:1.7vh">{{incom.in_category}}</span><span>{{ incom.money }}원</span>
                         </div>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                     <div style="float:left; margin-left:2vw; overflow: auto; height: 20vh; padding:0 1vw">
                         <div v-for="expend, i in expendList" >
                             <div class="legend-style" :style="{ background:activeColor[i]}"></div>
-                            <span style="display:inline-block; width:5vw; margin-bottom:1.7vh">{{expend.kind}}</span><span>{{ expend.money }}원</span>
+                            <span style="display:inline-block; width:5vw; margin-bottom:1.7vh">{{expend.ex_category}}</span><span>{{ expend.money }}원</span>
                         </div>
                     </div>
                     
@@ -50,6 +50,7 @@ import {ref,computed} from 'vue'
 import { useStore } from 'vuex';
 import income from '@/components/patternAnalysis/income'
 import expend from '@/components/patternAnalysis/expend'
+import axios from 'axios'
     export default{ 
         name:'accountDetailCom',
         components:{
@@ -57,18 +58,8 @@ import expend from '@/components/patternAnalysis/expend'
             expend
         },
         setup(){
-            var expendList =[
-                {kind:"여가", money: 20186},
-                {kind:"간식", money: 80000},
-                {kind:"생필품", money: 20186},
-                {kind:"식비", money: 5802},
-                {kind:"음식점", money: 6050}
-            ]
-
-            var incomList = [
-                {kind:"월급", money:806000},
-                {kind:"용돈", money:350000}
-            ]
+            var expendList =ref([])
+            var incomList = ref([])
             
             var activeColor = ['#FF7E66','#FFBD60','#A7B901','#00A29B','#EEE8AC','#E9DF56']
             var store = useStore();
@@ -76,14 +67,72 @@ import expend from '@/components/patternAnalysis/expend'
                 store.commit("clickPatternPopup")
             }
             var pattern = computed(()=>store.state.pattern)
-            var date = ref('2023-04')
+            var month =  ref(computed(()=>store.state.month))
+            var date = ref('2023-'+ month.value)
+
+            console.log(month.value)
+            function monthCal(){
+                console.log(date.value)
+                store.commit("setMonth",date.value.substr(5, 2))
+            }
+
+            async function get_expend_pattern(){
+                await axios.get("/api/users/getExpendPattern/"+month.value).then(res => {
+                    console.log('카테고리별 총 금액',res.data)
+                    expendList.value = res.data
+                    var expend_label =[]
+                    var expend_data = []
+                    for (var i =0; i<res.data.length; i++){
+                        expend_label.push(res.data[i].ex_category)
+                        expend_data.push(res.data[i].money)
+                    }
+
+                    console.log(expend_label)
+                    console.log(expend_data)
+                    store.commit('setExpendPattern_data',expend_data)
+                    store.commit('setExpendPattern_label',expend_label)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                .finally(() => {
+                })
+            }
+            
+            async function get_income_pattern(){
+                console.log('income month', month.value)
+                await axios.get("/api/users/getIncomePattern/"+month.value).then(res => {
+                    incomList.value = res.data
+                    console.log('카테고리별 총 금액',res.data)
+                    var income_label =[]
+                    var income_data = []
+                    for (var i =0; i<res.data.length; i++){
+                        income_label.push(res.data[i].in_category)
+                        income_data.push(res.data[i].money)
+                    }
+
+                    console.log(income_label)
+                    console.log(income_data)
+                    store.commit('setIncomePattern_label',income_label)
+                    store.commit('setIncomePattern_data',income_data)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                .finally(() => {
+                })
+            }
+            get_expend_pattern()
+            get_income_pattern()
             return{
                 activeColor,
                 expendList,
                 incomList,
                 clickPattern,
                 pattern,
-                date
+                date,
+                monthCal,
+                month
             }
         }
     }

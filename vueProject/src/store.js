@@ -22,9 +22,17 @@ export default createStore({
 
         //패턴 분석
         pattern: false,
+        month : '04',
 
+        incomeLabel:[],
+        incomeData:[],
+        expendLabel:[],
+        expendData:[],
+        
         //main화면
         account:'',
+
+
 
     }, 
     //상태 접근 (변경)
@@ -77,6 +85,36 @@ export default createStore({
         clickPatternPopup(state) {
             state.pattern = ! state.pattern
             console.log(state.pattern )
+        },
+        setMonth(state,month){
+            state.month = month
+        },
+        setExpendPattern_label(state, expend_label) {
+            state.expendLabel = []
+            for(var i=0; i<expend_label.length ; i++){
+                state.expendLabel.push(expend_label[i])
+            }
+        },
+        setExpendPattern_data(state,expend_data) {
+            state.expendData = []
+            for(var i=0; i<expend_data.length ; i++){
+                state.expendData.push(expend_data[i])
+            }
+            
+            
+        },
+        setIncomePattern_label(state, income_label) {
+            state.incomeLabel = []
+            for(var i=0; i<income_label.length ; i++){
+                state.incomeLabel.push(income_label[i])
+            }
+            console.log('hlll',state.incomeLabel)
+        },
+        setIncomePattern_data(state, income_data) {
+            state.incomeData = []
+            for(var i=0; i<income_data.length ; i++){
+                state.incomeData.push(income_data[i])
+            }
         }
     },
     modules:{

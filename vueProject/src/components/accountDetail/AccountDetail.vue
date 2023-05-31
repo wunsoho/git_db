@@ -6,7 +6,7 @@
             <img class="title-bank-icon" :src="imgPath" style="margin-right:6vw; margin-left:3vw">
             <div id="content-total">
                 <div style="font-size:2vh">{{account.kind}} {{account.acc}}</div>
-                <div class="title block-title content-block-title">{{account.money}}</div>
+                <div class="title block-title content-block-title">{{account_money}}</div>
                 <div class="title block-title content-block-title" style="margin-left:5vw">원</div>
             </div>
         </div>
@@ -21,9 +21,9 @@
                 <div :class="{'block': content.check==false,'click-block':content.check==true}" id="content-block"  @click="clickContent(content,i)">
                     <div class="detail-info" id="content-date" style="">{{content.date}}</div>
                     <div class="detail-info" id="content-content" style="">{{content.content}}</div>
-                    <div v-if="content.money > 0" class="detail-info content-money"  style="color:#058B3B; ">+{{content.money}}원</div>
+                    <div v-if="content.kind == 'income'" class="detail-info content-money"  style="color:#058B3B; ">+{{content.money}}원</div>
                     <div  v-if="content.money == 0" class="detail-info content-money" style="color:#616161(145, 145, 145);">{{content.money}}원</div>
-                    <div  v-if="content.money < 0" class="detail-info content-money" style="color:#c80000;">{{content.money}}원</div>
+                    <div  v-if="content.kind == 'expend'" class="detail-info content-money" style="color:#c80000;">-{{content.money}}원</div>
                 </div>
             </div>
         </div>
@@ -36,6 +36,7 @@
 <script>
 import {ref,computed} from 'vue'
 import {useStore} from 'vuex'
+import axios from 'axios'
 
     export default{ 
         name:'accountDetailCom',
@@ -45,38 +46,8 @@ import {useStore} from 'vuex'
             var store = useStore()
             var account = computed(()=> store.state.account)
             var imgPath = require("@/assets/"+account.value.kind+".png")
-            var contentList = ref([
-                {
-                    id:1,
-                    date:'2023-05-05',
-                    content:'초콜릿 구매',
-                    money:-2000,
-                    check : false
-                },
-                {
-                    id:2,
-                    date:'2023-05-04',
-                    content:'초콜릿 구매',
-                    money:-2000,
-    
-                    check : false
-                },
-                {
-                    id:3,
-                    date:'2023-05-03',
-                    content:'용돈',
-                    money:300000,
-                    check : false
-                },
-                {
-                    id:4,
-                    date:'2023-05-02',
-                    content:'알바비',
-                    money:600000,
-                    check : false
-                },
-            ])
-
+            var contentList = ref([])
+            var account_money=ref(0)
             var selected_List = ref([])
 
             function clickContent(content,index){
@@ -118,6 +89,82 @@ import {useStore} from 'vuex'
             function openAddContentPopup(){
                 store.commit('openAddContent')
             }
+            console.log(account.value.id)
+            async function get_Content(){
+                var expendCotent = []
+                var incomeCotent = []
+                await axios.get("/api/users/getExpendContent/"+account.value.id).then(res => {
+                    expendCotent = res.data
+                    console.log('총 지출 내역',res.data)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                .finally(() => {
+                })
+
+                await axios.get("/api/users/getIncomeContent/"+account.value.id).then(res => {
+                    incomeCotent = res.data
+                    console.log('총 수익 내역',res.data)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                .finally(() => {
+                })
+
+                for (var i =0; i<incomeCotent.length; i++){
+                    contentList.value.push(
+                        {
+                            id:incomeCotent[i].income_id,
+                            date:incomeCotent[i].dates.slice(0, -14),
+                            content:incomeCotent[i].in_category,
+                            money:incomeCotent[i].in_money,
+                            kind:'income',
+                            check : false
+                        }
+                    )    
+                }
+
+
+
+                for (var i =0; i<expendCotent.length; i++){
+                    contentList.value.push(
+                        {
+                            id:expendCotent[i].expen_id,
+                            date:expendCotent[i].dates.slice(0, -14),
+                            content:expendCotent[i].ex_category,
+                            money:expendCotent[i].ex_money,
+                            kind:'expend',
+                            check : false
+                        }
+                    )    
+                }
+
+                contentList.value = contentList.value.sort(date_descending)
+                console.log(contentList.value)
+
+
+            }
+
+            async function get_account_money(){
+                await axios.get("/api/users/getAccountMoney/"+account.value.id).then(res => {
+                    console.log('계좌 돈',res.data)
+                    account_money.value = res.data[0].account_money
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                .finally(() => {
+                })
+
+            }
+            get_account_money()
+            function date_descending(a,b){
+                var dateA = new Date(a['dates']).getTime();
+                var dateB = new Date(b['dates']).getTime();
+                return dateA < dateB ? 1: -1;
+            }
             return{
                 contentList,
                 account,
@@ -126,9 +173,15 @@ import {useStore} from 'vuex'
                 editContent,
                 openAddContentPopup,
                 imgPath,
-                deleteContent
+                deleteContent,
+                get_Content,
+                get_account_money,
+                account_money
           
             }
+        },
+        created(){
+            this.get_Content()
         }
     }
 

@@ -46,11 +46,11 @@
              
             <div>
                 <div class="title input-title" >계좌번호 입력</div>
-                <input class="popup-input popup-input-white">
+                <input class="popup-input popup-input-white" v-model="acc">
             </div>
             <div>
                 <div class="title input-title">잔고입력</div><br>
-                <input class="popup-input popup-input-white" style="width:18vw; display: inline-block;">
+                <input class="popup-input popup-input-white" v-model="money" style="width:18vw; display: inline-block;">
                 <div class="title" style="display: inline-block; margin-left:1vw; margin-top:1vh; font-size:2vh">원</div>
             </div>
             <button class="ok-btn" @click="clickOk()">확인</button>
@@ -61,12 +61,15 @@
 <script>
 import { useStore } from 'vuex';
 import {ref} from 'vue';
+import axios from 'axios'
     export default{ 
         name:'accountDetailCom',
         components:{
         },
         setup(){
             var bank = ref('')
+            var acc=ref('')
+            var money = ref(0)
             var store = useStore()
             function closeDetailAddPopup(){
                 store.commit('closeAddContent')
@@ -78,32 +81,43 @@ import {ref} from 'vue';
 
             function clickOk(){
                 closeDetailAddPopup()
-                // set_total_Account()
+                set_total_Account()
             }
 
-            var accountdata = {
-                bank: '농협',
-                acc:'계좌번호',
-                money: 5000,
-                img: ""
-            }
+            var today = new Date();
 
-            // async function set_total_Account(){
-            //     await axios.post("/api/users/setTotalAccount",{accontdata: accountdata.value}).then(res => {
-            //         console.log(res.data)
-            //     })
-            //     .catch(error => {
-            //         console.log(error)
-            //     })
-            //     .finally(() => {
-            //     })
-            // }
+            var year = today.getFullYear();
+            var month = ('0' + (today.getMonth() + 1)).slice(-2);
+            var day = ('0' + today.getDate()).slice(-2);
+
+            var dateString = year + '-' + month  + '-' + day;
+
+
+            async function set_total_Account(){
+                var account = {
+                    bank: bank.value,
+                    acc:acc.value,
+                    money: money.value,
+                    dates:dateString
+                }
+
+                await axios.post("/api/users/setAccount",account).then(res => {
+                    console.log(res.data)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                .finally(() => {
+                })
+            }
 
             return{
                 closeDetailAddPopup,
                 bank,
                 clickBank,
                 clickOk,
+                acc,
+                money
             }
         }
     }

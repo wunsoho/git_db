@@ -7,7 +7,7 @@
             <!-- 총 계좌정보 -->
             <div class="block" style="margin-bottom:12vh">
                 <div style="text-align: center;">
-                    <div id="total-money" class="title block-title">1,100,500</div>
+                    <div id="total-money" class="title block-title">{{totalMoneyList[0].total_money}}</div>
                     <div id="원" class="title block-title">원</div>
                 </div>
             </div>
@@ -40,6 +40,12 @@ export default{
     setup(){
         var router = useRouter()
         var store = useStore()
+        var totalMoneyList = ref([{
+            a : 0,
+            account_money:  0
+        }])
+        var expendMoneyList = ref([])
+        var incomeMoneyList = ref([])
         var accountList = ref([
             {
                 id:1,
@@ -90,11 +96,49 @@ export default{
             .finally(() => {
             })
         }
+
+        //계좌별 잔고 가져오는 API
+        async function get_total_Account_Money(){
+            await axios.get("/api/users/getExpendAccountMoney").then(res => {
+                console.log(res.data)
+                expendMoneyList.value = res.data
+                console.log('지출',expendMoneyList.value)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            .finally(() => {
+            })
+
+            await axios.get("/api/users/getIncomAccountMoney").then(res => {
+                console.log(res.data)
+                incomeMoneyList.value = res.data
+                console.log('수익',expendMoneyList.value)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            .finally(() => {
+            })
+
+            for (var i=0; i<accountList.value.length; i++){
+                if(i<expendMoneyList.value.length){
+                    accountList.value[i].money = incomeMoneyList.value[i].in_sum - expendMoneyList.value[i].ex_sum
+                }
+                else{
+                    accountList.value[i].money = incomeMoneyList.value[i].in_sum
+                }
+                
+            }
+
+        }
+
         //총 잔액 가져오는 API
         async function get_total_Money(){
             await axios.get("/api/users/getTotalMoney").then(res => {
                 console.log(res.data)
-                accountList.value = res.data
+                totalMoneyList.value = res.data
+                console.log('총돈',totalMoneyList.value)
             })
             .catch(error => {
                 console.log(error)
@@ -106,13 +150,18 @@ export default{
         return{
             accountList,
             selected_List,
+            totalMoneyList,
             openAddContentPopup,
             clickAccount,
-            get_total_Account
+            get_total_Account,
+            get_total_Money,
+            get_total_Account_Money,
         }
     },
     created(){
         this.get_total_Account()
+        this.get_total_Money()
+        this.get_total_Account_Money()
     },
 }
 

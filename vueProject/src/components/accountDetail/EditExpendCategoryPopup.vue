@@ -14,7 +14,7 @@
                 <div style="width:23vw;height: 40vh;  overflow:auto">
                     <div v-for="content in contentList" >
                         <div :class="{'block popup-kind-block': content.check==false,'click-block':content.check==true}" @click="clickContent(content,i)">
-                            <div class="detail-info kind-content">{{content.kind}}</div>
+                            <div class="detail-info kind-content">{{content.ex_category}}</div>
                         </div>
                     </div>
                     <div v-if="addInput==false" class="edit-category-add" @click="addCategory()">+ 내용 추가하기</div>
@@ -29,17 +29,27 @@
 <script>
 import {ref} from 'vue'
 import { useStore } from 'vuex';
-
+import axios from 'axios'
     export default{ 
         name:'accountDetailCom',
         components:{
         },
         setup(){
-            var contentList = [
-                {kind:'여가활동', check:false},
-                {kind:'간식', check:false},
-                {kind:'음식점', check:false},              
-            ]
+            var contentList = ref([])
+            var addIncomeAddcontent = ref([])
+            async function set_kindList(){
+                await axios.get("/api/users/getExpendKind").then(res => {
+                    contentList.value = res.data
+                    console.log('expendList',res.data)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                .finally(() => {
+                })
+            }
+            set_kindList()
+           
             var store = useStore();
 
             //닫기 버튼 누를시
@@ -48,9 +58,24 @@ import { useStore } from 'vuex';
                 store.commit('closeEditCategory')
             }
 
+            async function set_dkindList(){
+                console.log('아아아앙',addIncomeAddcontent.value[0])
+                for (var i =0; i<addIncomeAddcontent.value.length; i++){
+                    await axios.post("/api/users/setExpendKind",addIncomeAddcontent.value[i]).then(res => {
+                        console.log('아아아앙',addIncomeAddcontent.value)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+                    .finally(() => {
+                    })
+                }
+             
+            }
             //확인 버튼 누를시
             function clickOk(){       
                 console.log(contentList ,'저장')
+                set_dkindList()
                 closeDetailAddPopup()
             }
 
@@ -70,8 +95,9 @@ import { useStore } from 'vuex';
 
                 }
                 else{
-                    contentList.push({kind:incomeAddContent.value, check:false})
-                    incomeAddContent.value=''
+                    contentList.value.push({ex_category:incomeAddContent.value})
+                    addIncomeAddcontent.value.push({ex_category:incomeAddContent.value})
+                    incomeAddContent.value = ''
                 }
                 
                 addInput.value=false
@@ -83,7 +109,9 @@ import { useStore } from 'vuex';
                 addCategory,
                 completeAddCategory,
                 addInput,
-                incomeAddContent
+                incomeAddContent,
+                addIncomeAddcontent,
+                set_dkindList
             }
         }
     }

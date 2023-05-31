@@ -44,34 +44,16 @@ export default defineComponent({
   },
   setup(props) {
     var store =useStore()
-    //날짜 그룹명
-    var user_group = computed(()=> store.state.user_group)
-    var selected_company = computed(()=> store.state.insight_selected_company)
+    var income_data = computed(()=>store.state.incomeData)
+    var income_label = computed(()=>store.state.incomeLabel)
 
-    var now = new Date();	// 현재 날짜 및 시간
-    var year = now.getFullYear()	// 년도
-    var month = now.getMonth()
-
-    //서버
-    var server_total_data = [20,10,30,50,40,20,20,40,10,60,20,50]
-    var server_targetTotal_data = 570
-
-
-    var sum =ref(0) //작년 총 탄소 배출량
-
-    for(var i=0; i<server_total_data.length; i++){
-        sum.value = server_total_data[i] + sum.value
-    }
-
-
+    console.log('income 차트!!!',income_data, income_label)
     const chartData = {
-      labels: [
-        '월급','용돈'
-      ],
+      labels: income_label.value,
       datasets: [
         {
           backgroundColor: ['#FF7E66','#FFBD60','#A7B901','#00A29B','#EEE8AC','#E9DF56'],
-          data: [50,10],
+          data: income_data.value,
         },
       ],
     }
