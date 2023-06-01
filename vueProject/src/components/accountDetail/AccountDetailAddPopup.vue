@@ -53,7 +53,7 @@ import axios from 'axios'
         setup(){
             // 수입인지 지출인지
             var kind = ref('income') 
-            var date_ = ref('')
+            var date_ = ref(dateNow())
             var money1 = ref(0)
             var incomekindList =ref([])
             var expendkindList =ref([])
@@ -61,7 +61,17 @@ import axios from 'axios'
             var store = useStore()
             var account = computed(()=> store.state.account)
 
-        
+            function dateNow(){
+                var today = new Date();
+
+                var year = today.getFullYear();
+                var month = ('0' + (today.getMonth() + 1)).slice(-2);
+                var day = ('0' + today.getDate()).slice(-2);
+
+                var dateString = year + '-' + month  + '-' + day;
+
+                return dateString;
+            }
             async function set_Content(){
                 var list = {
                     account_id:account.value.id,
